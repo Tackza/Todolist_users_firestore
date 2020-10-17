@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col">
         <ul class="list-group" v-for="(item, index) of fetchTodo" :key="index">
-          <li class="list-group-item" :class="{ 'completed': item.done }">
+          <li class="list-group-item" :class="{ completed: item.done }">
             {{ item.title }} ({{ item.time | transDate }})
             <input type="checkbox" @change="statusCheck(item)" />
             <div class="col">
@@ -49,6 +49,7 @@ export default {
     };
   },
   mounted() {
+    this.checkUserId();
     this.fetchData();
   },
 
@@ -78,6 +79,11 @@ export default {
       this.$store.dispatch("logout");
       this.$router.push({ name: "login" });
     },
+    checkUserId(){
+      if(!this.$store.state.userId){
+        this.$router.push({name : 'login'})
+      }
+    }
   },
   filters: {
     transDate(val) {
