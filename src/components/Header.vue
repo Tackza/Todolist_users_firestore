@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-light bg-primary">
       <div class="col"></div>
-      <div class="col text-bold Text-Header">{{ userName }}'sTodoList</div>
+      <div class="col text-bold Text-Header">{{ userName }}'s TodoList</div>
       <div class="col text-right icon-logout">
         <i class="fas fa-sign-out-alt" @click="logout"></i>
       </div>

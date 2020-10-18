@@ -1,20 +1,26 @@
 <template>
-  <div class="about">
-    <div class="app-container">
-      <form @submit.prevent="submit">
-        <div class="form-group">
-          <label for="exampleInputPassword1">Enter PhoneNumber</label>
-          <input
-            type="text"
-            v-model="phoneNumber"
-            class="form-control"
-            id="exampleInputPassword1"
-          />
+  <div class="container mt-4">
+    <form @submit.prevent="submit">
+      <div class="input-group mb-3 ">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter Your PhoneNumber"
+          aria-label="Recipient's username"
+          aria-describedby="button-addon2"
+          v-model="phoneNumber"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-outline-secondary"
+            type="submit"
+            id="button-addon2"
+          >
+            Click
+          </button>
         </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -40,7 +46,10 @@ export default {
 };
 </script>
 <style scoped>
-#nav{
+#nav {
   padding: 30px;
+}
+.form-control{
+    width: 20px;
 }
 </style>
