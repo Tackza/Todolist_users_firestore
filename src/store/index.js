@@ -7,14 +7,17 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     userId: null,
+    userName: null,
     todos: [],
   },
   mutations: {
-    LOGIN(state, pinId) {
-      state.userId = pinId;
+    LOGIN(state, dataUser) {
+      state.userId = dataUser.codeUser;
+      state.userName = dataUser.name;
     },
     LOGOUT(state) {
       state.userId = null;
+      console.log(state.userId);
     },
     INSERT_TODO(state, itemTodo) {
       state.todos.push(itemTodo);
@@ -51,11 +54,15 @@ export default new Vuex.Store({
       const userPinId = response.docs.map((doc) => {
         return doc.data();
       });
-      console.log(response);
-      commit("LOGIN", userPinId[0].pinId);
+      const dataUser = {
+        codeUser: userPinId[0].pinId,
+        name: userPinId[0].name,
+      };
+      commit("LOGIN", dataUser);
     },
 
     logout({ commit }) {
+      console.log("click");
       commit("LOGOUT");
     },
 
@@ -83,16 +90,17 @@ export default new Vuex.Store({
       console.log(itemTodo);
       await firebaseInstance.firestore
         .collection("Todos")
-        .doc(itemTodo.id)
+        .doc(this.state.userName + " - " + itemTodo.id)
         .set(itemTodo);
 
       commit("INSERT_TODO", itemTodo);
     },
 
     async deleteTodo({ commit }, id) {
+      console.log(id);
       await firebaseInstance.firestore
         .collection("Todos")
-        .doc(id.toString())
+        .doc(this.state.userName + " - " + id.toString())
         .delete();
       commit("DELETE_TODO", id);
     },
@@ -101,7 +109,7 @@ export default new Vuex.Store({
       console.log(item.id);
       await firebaseInstance.firestore
         .collection("Todos")
-        .doc(item.id.toString())
+        .doc(this.state.userName + " - " + item.id.toString())
         .update({ done: !item.done });
 
       commit("CHANGE_STATUS", item);
@@ -112,5 +120,8 @@ export default new Vuex.Store({
     fetchTodo(state) {
       return state.todos;
     },
+    fetchUsername(state) { 
+      return state.userName
+    }
   },
 });

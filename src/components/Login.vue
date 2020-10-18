@@ -39,3 +39,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+#nav{
+  padding: 30px;
+}
+</style>

@@ -1,48 +1,71 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Input Title"
-          v-model="title"
-        />
+  <div>
+    <Header />
+    <div class="container">
+      <div class="row">
+        <div class="input-group mb-5 mt-5">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Todo please"
+            aria-label="Recipient's username"
+            aria-describedby="button-addon2"
+            v-model="title"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              @click="insertText"
+            >
+              Click
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="col-1">
-        <button class="btn btn-success form-control-sm" @click="insertText">
-          click
-        </button>
-        <button class="btn btn-danger" @click="logout">logout</button>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <ul class="list-group" v-for="(item, index) of fetchTodo" :key="index">
-          <li class="list-group-item" :class="{ completed: item.done }">
-            {{ item.title }} ({{ item.time | transDate }})
-            <input type="checkbox" @change="statusCheck(item)" />
-            <div class="col">
-              <button
-                type="button"
-                class="btn btn-outline-danger"
-                @click="deleteTodo(item)"
-              >
-                del
-              </button>
-            </div>
-          </li>
-        </ul>
+      <div class="row">
+        <div class="col">
+          <ul
+            class="list-group"
+            v-for="(item, index) of fetchTodo"
+            :key="index"
+          >
+            <li class="list-group-item mb-3" :class="{ completed: item.done }">
+              <div class="row">
+                <div class="col-md-auto">
+                  <input type="checkbox" @change="statusCheck(item)" />
+                </div>
+                <div class="col text-right">
+                  {{ item.title }}
+                </div>
+                <div class="col font-weight-bolder">
+                  ({{ item.time | transDate }})
+                </div>
+                <div class="col-md-auto">
+                  <i
+                    type="button"
+                    class="far fa-trash-alt"
+                    @click="deleteTodo(item)"
+                  ></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Header from "./Header";
 import { v1 as uuid } from "uuid";
 import moment from "moment";
 export default {
   name: "todolist",
+  components: {
+    Header,
+  },
   data() {
     return {
       title: "",
@@ -64,6 +87,7 @@ export default {
         title: this.title,
         id: uuid(),
       };
+      this.title = "";
       this.$store.dispatch("insertTodo", data);
     },
     fetchData() {
@@ -75,15 +99,12 @@ export default {
     statusCheck(item) {
       this.$store.dispatch("changeStatus", item);
     },
-    logout() {
-      this.$store.dispatch("logout");
-      this.$router.push({ name: "login" });
-    },
-    checkUserId(){
-      if(!this.$store.state.userId){
-        this.$router.push({name : 'login'})
+
+    checkUserId() {
+      if (!this.$store.state.userId) {
+        this.$router.push({ name: "login" });
       }
-    }
+    },
   },
   filters: {
     transDate(val) {
@@ -95,6 +116,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#nav {
+  padding: 0px 30px;
+}
 h3 {
   margin: 40px 0 0;
 }

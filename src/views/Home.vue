@@ -1,17 +1,19 @@
 <template>
   <div class="home">
+    <Header />
     <Todolist />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Todolist from '@/components/Todolist.vue'
+import Header from "../components/Header";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
-    Todolist
-  }
-}
+    Todolist,
+    Header,
+  },
+};
 </script>
